@@ -36,7 +36,7 @@
                                 <i class="fa-solid fa-magnifying-glass forawar" color='black'></i>
                             </div>
                             <input placeholder='Search products Here' id="sears" type="text" class='inputing' />
-                            <button type='submit' class='teris pointer'>
+                            <button type='submit' class='teris pointer searcher'>
                                 <i class="fa-solid fa-magnifying-glass sear"></i>
                             </button>
                         </div>
@@ -91,7 +91,7 @@
                     <i class="fa-solid fa-magnifying-glass forawar" color='black'></i>
                 </div>
                 <input placeholder='Search products Here' type="text" class='inputing' />
-                <button type='submit' class='teris_sec'>
+                <button type='submit' class='teris_sec searcher'>
                     <i class="fa-solid fa-magnifying-glass sear"></i>
                 </button>
             </div>
@@ -121,25 +121,25 @@
             </div>
         </div>
         <div id="content">
-            <div id="mail" class="side_cont pointer">
+            <div id="mail" class="side_cont pointer"  onclick="location.href=`{{request.scheme}}://{{request.get_host}}{% url 'profile' %}`">
                 <i class="fa-solid fa-envelope side_logs"></i>
                 <div id="mail_here" class="side_desc">
                     Hello, Sign in
                 </div>
             </div>
-            <div id="user" class="side_cont pointer">
+            <div id="user" class="side_cont pointer"  onclick="location.href=`{{request.scheme}}://{{request.get_host}}{% url 'profile' %}`">
                 <i class="fa-solid fa-user side_logs"></i>
                 <div id="user_here" class="side_desc">
                     Hello, Sign in
                 </div>
             </div>
-            <div id="cart" class="side_cont pointer">
+            <div id="cart" class="side_cont pointer"  onclick="location.href=`{{request.scheme}}://{{request.get_host}}{% url 'cart' %}`">
                 <i class="fa-solid fa-cart-shopping side_logs"></i>
                 <div id="cart_here" class="side_desc">
                     Login to see Cart
                 </div>
             </div>
-            <div id="user_ords" class="side_cont pointer">
+            <div id="user_ords" class="side_cont pointer" onclick="location.href=`{{request.scheme}}://{{request.get_host}}{% url 'profile' %}`">
                 <i class="fa-solid fa-cart-shopping side_logs"></i>
                 <div id="order_here" class="side_desc">
                     Login to see Orders
@@ -553,6 +553,11 @@
         })
 
         ele.addEventListener('keydown', (key) => {
+            Array.from(document.getElementsByClassName('searcher')).forEach(eles=>{
+                eles.addEventListener('click',(event)=>{
+                    window.location.href = `{% url 's_initialization' %}?query=${String(ele.value)}`
+                })
+            })
             switch (key.code) {
                 case 'Enter':
                     window.location.href = `{% url 's_initialization' %}?query=${String(ele.value)}`
@@ -657,7 +662,7 @@
         });
     }
 
-    let my_prod_inter = document.getElementById('products_here');
+    let my_prod_inter = document.getElementById('users_ima_prods');
     my_prod_inter.addEventListener('click', () => {
         window.location.href = "{% url 'products' %}"
     });
