@@ -1,0 +1,339 @@
+{% extends 'nav.html' %}
+
+{% block data %}
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<div id="single">
+    <input type="text" hidden readonly value="{{prod_id}}">
+    <div id="single_prod">
+        <div id="single_img">
+            <img class="my_prod_img" src="/static/{{prod_img}}.jpg " alt="">
+        </div>
+        <div id="product_details">
+            <div id="prod_title">
+                {{title}}
+            </div>
+            <div id="prod_desc">
+                {{desc}}
+            </div>
+            <div id="prod_price">₹.{{prod_price}}</div>
+        </div>
+    </div>
+    <div id="buy_it">
+        <div id="buy_price">₹{{prod_price}}</div>
+        <div id="buy_desc">FREE delivery Saturday, 10 September on first order. Order within 12 hrs 28 mins. Details
+        </div>
+        <h3>In stock.</h3>
+        <div id="buy_place">
+            Sold by Softspun and Fulfilled by Amazon.
+        </div>
+        <div id="buy_inter">
+            <button id="to_cart">
+                Add to Cart
+            </button>
+            <button id="to_order">
+                Buy Now
+            </button>
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="produ">Same Category Products</div>
+    {% for i in same_prods %}
+    <div class="single_product">
+        <img class="prod_img" src="/static/{{i.prod_img}}.jpg" alt="{{i.prodg}}.jpg">
+        <div class="prod_details">
+            <div class="prod_title">{{i.title}}</div>
+            <div class="prod_desc">
+                {{i.desc}}
+            </div>
+            <div class="prod_price">
+                ₹ {{i.prod_price}}
+            </div>
+            <input type="text" hidden readonly value="{{i.prod_id}}">
+        </div>
+    </div>
+    {% endfor %}
+    <div class="produ give_bor">Different Category Products</div>
+    {% for i in other_prods %}
+    <div class="single_product">
+        <img class="prod_img" src="/static/{{i.prod_img}}.jpg" alt="{{i.prodg}}.jpg">
+        <div class="prod_details">
+            <div class="prod_title">{{i.title}}</div>
+            <div class="prod_desc">
+                {{i.desc}}
+            </div>
+            <div class="prod_price">
+                ₹ {{i.prod_price}}
+            </div>
+            <input type="text" hidden readonly value="{{i.prod_id}}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock data %}
+
+{% block logic %}
+<style>
+    #prod_price {
+        color: tomato;
+        font-size: 25px;
+        margin-top: 7px;
+    }
+
+    #single {
+        margin-top: 30px;
+        display: flex;
+    }
+
+    #product_details {
+        margin-top: 28px;
+    }
+
+    #prod_title {
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+
+    #prod_desc {
+        font-size: 20px;
+    }
+
+    #single_img {
+        width: 1000px;
+        margin: 15px;
+        height: 400px;
+        background-color: rgb(222, 222, 222);
+    }
+
+    .my_prod_img {
+        width: 100%;
+    }
+
+    #buy_it {
+        padding: 15px;
+        margin: 10px;
+        border: 1px solid #FEBD69;
+        width: 25%;
+    }
+
+    #buy_price {
+        margin-bottom: 20px;
+        color: tomato;
+    }
+
+    #buy_desc {
+        margin-bottom: 10px;
+
+    }
+
+    #stock {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        color: green;
+    }
+
+    #buy_inter {
+        display: block;
+    }
+
+    #to_cart {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: #ffd746;
+        color: black;
+        padding: 7px;
+    }
+
+    #to_order {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: #FEBD69;
+        color: black;
+        padding: 7px;
+        margin-top: 10px;
+    }
+
+    #single_prod {
+        display: flex;
+        width: 75%;
+    }
+
+    .prod_img {
+        width: 250px;
+        height: 100%;
+    }
+
+    .single_product {
+        height: 150px;
+        display: flex;
+        margin: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid black;
+    }
+
+    .prod_title {
+        font-size: 25px;
+        margin-bottom: 15px;
+        width: 100%;
+        height: 30px;
+        overflow-y: auto;
+    }
+
+    .prod_details {
+        margin-left: 10px;
+    }
+
+    .prod_desc {
+        height: 50px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .prod_price {
+        margin-top: 10px;
+        color: rgb(255, 85, 85);
+        font-size: 25px;
+    }
+
+    .produ {
+        font-size: 25px;
+        margin: 10px;
+        border: 2px solid black;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 60px;
+    }
+
+    .give_bor {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 7px solid rgb(255, 85, 85);
+    }
+
+    @media only screen and (max-width: 756px) {
+        .prod_img {
+            width: 200px;
+        }
+    }
+
+    @media only screen and (max-width: 624px) {
+        .prod_title {
+            font-size: 20px;
+        }
+
+        .prod_desc {
+            font-size: 11px;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        .single_product {
+            height: 110px;
+        }
+
+        .prod_img {
+            width: 110px;
+        }
+
+        .prod_title {
+            width: 100%;
+            font-size: 16px;
+            height: 20px;
+        }
+
+        .prod_desc {
+            height: 35px;
+        }
+
+        .prod_price {
+            font-size: 16px;
+        }
+    }
+
+    @media only screen and (max-width: 756px) {
+        #single {
+            display: block;
+        }
+
+        #single_prod {
+            width: 100%;
+        }
+
+        #buy_it {
+            width: auto;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        #single_prod {
+            display: block;
+        }
+
+        #single_img {
+            width: auto;
+            height: auto;
+            background-color: transparent;
+        }
+
+        #product_details {
+            margin-top: 20px;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 20px;
+        }
+
+        #prod_title {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        #prod_desc {
+            font-size: 15px;
+        }
+    }
+</style>
+<script defer>
+
+    var carting = document.getElementById('to_cart')
+    carting.addEventListener('click', function () {
+        let main_element = document.getElementById('single');
+        let prod_id = main_element.getElementsByTagName('input')[0].value;
+        $(document).ready(function () {
+            $.ajax({
+                url: 'prod/to_cart',
+                method: 'GET',
+                data: {
+                    'id': prod_id
+                },
+                success: function (res) {
+                    if (res.taken) {
+                        console.log("The Item Added to Your Cart");
+                    }
+                    else {
+                        if (res.error == 'login') {
+                            window.location.href = "{% url 'login' %}"
+                        }
+                    }
+                }
+            })
+        })
+    });
+
+    var other_prods = document.getElementsByClassName('single_product')
+    Array.from(other_prods).forEach(ele => {
+        ele.addEventListener('click', () => {
+            let prods_id = ele.getElementsByTagName('input')[0].value
+            window.location.href = `{% url 's_product' %}?id=${prods_id}`
+        })
+    })
+
+</script>
+{% endblock logic %}

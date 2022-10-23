@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/8eb01fa4fc.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Auth</title>
+</head>
+
+<body>
+    <div>
+        <div class='main_log'>
+            {% csrf_token %}
+            <div class='img_logo'>
+                {% load static %}
+                <img src='{% static "Amazon_logo.png" %}' alt="" />
+            </div>
+            <div class='sign_up_base'>
+                <div class='sign_head'>
+                    Sign-Up Auth
+                </div>
+                <div class='inputer'>
+                    <div class='inputer_head'>
+                        Enter Verification Code Sended to this gmail address <br />{{ gmail }}
+                    </div>
+                    <input class='inps' type="number" ref={opt} />
+                    <div class='error' ref={error_field_invalid}>Invalid Otp Sorry Try Again</div>
+                </div>
+                <div class='butus'>
+                    <button class='bittle'>continue</button>
+                </div>
+                <div class='error' id='glob_error' ref={empty_field}>No Empty Fields Are Allowed Sorry</div>
+                <div class='sign_notice'>
+                    By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.
+                </div>
+                <div class='sign_help'>
+                    Need help?
+                </div>
+            </div>
+            <div class='new_main_back'>
+                <div class='new_tit'>
+                    Old User?
+                </div>
+            </div>
+            <div class='create_another'>
+                <button class='create_account' type='submit'>Login into Your Account</button>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .img_logo {
+
+        text-align: center;
+        background-color: black;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .main_log {
+        width: 380px;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .img_logo img {
+        margin: auto;
+        width: 100px;
+        background-color: black;
+        padding: 10px;
+        padding-top: 20px;
+    }
+
+    .sign_up_base {
+        padding: 20px;
+        border: 1px solid #DDDDDD;
+        border-radius: 5px;
+    }
+
+    .sign_head {
+        font-size: 27px;
+        font-weight: 500;
+    }
+
+    .inputer {
+        padding: 0;
+        margin: 0;
+        margin-top: 15px;
+
+    }
+
+    .inputer_head {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .inps {
+        width: 100%;
+        padding: 7px;
+        outline: none;
+        border: none;
+        border: 1.5px solid #b1b1b1;
+        box-sizing: border-box;
+        border-radius: 3px;
+    }
+
+    .inps:focus {
+        border-color: rgb(255, 119, 0);
+    }
+
+    .bittle {
+        background-color: rgb(255, 170, 95);
+        width: 100%;
+        height: 45px;
+        border-radius: 5px;
+        margin-top: 10px;
+        border: 1px solid black;
+        outline: none;
+    }
+
+    .bittle:active {
+        border: 3px solid rgb(255, 119, 0);
+    }
+
+    .butus {
+        margin-top: 20px;
+    }
+
+    .sign_notice {
+        font-size: 13px;
+        margin-top: 20px;
+        letter-spacing: .3px;
+        line-height: 20px;
+    }
+
+    .sign_help {
+        font-size: 13px;
+        margin-top: 20px;
+        letter-spacing: .3px;
+        line-height: 20px;
+        color: #1d68fe;
+    }
+
+    .new_main_back {
+        margin-top: 30px;
+        width: auto;
+        background-color: white;
+        text-align: center;
+        justify-content: center;
+        height: fit-content;
+        border-top: 2px solid #DDDDDD;
+        border-bottom: 2px solid #DDDDDD;
+        border-radius: 5px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .new_tit {
+        padding: 10px;
+    }
+
+    .create_another {
+        width: auto;
+        margin-top: 20px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .create_account {
+        width: 100%;
+        height: 35px;
+    }
+
+    @media only screen and (max-width: 453px) {
+        .main_log {
+            width: auto;
+            margin: 0;
+        }
+
+        .img_logo {
+            border-radius: 0%;
+        }
+    }
+
+    .mobile_number {
+        display: flex;
+    }
+
+    .mobile_number input {
+        margin-left: 10px;
+    }
+
+
+    .error {
+        color: rgb(253, 77, 46);
+        font-size: 13px;
+        background-color: rgb(255, 238, 235);
+        width: fit-content;
+        margin-top: 7px;
+        padding: 5px;
+        border-radius: 7px;
+        display: none;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('.bittle').click(function () {
+            Array.from(document.getElementsByClassName('error')).forEach((e) => {
+                e.style.display = 'none';
+            });
+            $.ajax({
+                url: 'signup_auth',
+                method: 'POST',
+                data: {
+                    'our_otp': document.getElementsByTagName('input')[1].value
+                },
+                headers: {
+                    'X-CSRFToken': document.getElementsByTagName('input')[0].value
+                },
+                success: function (res) {
+                    if (!res.taken) {
+                        if (res.error == 'empty') {
+                            document.getElementsByClassName('error')[1].style.display = 'block'
+                        }
+                        else if (res.error == 'invalid') {
+                            document.getElementsByClassName('error')[0].style.display = 'block'
+                        }
+                    }
+                    else {
+                        window.location.href = "{% url 'home' %}";
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+</html>

@@ -1,0 +1,127 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+Profile | Amazon Clone
+{% endblock title %}
+
+
+{% block data %}
+<div>
+    {% if user %}
+    <div id="profile">
+        <div id="user_name" class="single_whole_prof">
+            <div class="prof_tits">
+                username
+            </div>
+            <div class="prof_desc">
+                {{user.1}}
+            </div>
+        </div>
+        <div id="user_gmail" class="single_whole_prof">
+            <div class="prof_tits">
+                email
+            </div>
+            <div class="prof_desc">
+                {{user.0}}
+            </div>
+        </div>
+        <div id="user_password" class="single_whole_prof">
+            <div class="prof_tits">
+                password
+            </div>
+            <div id="user_pass_main">
+                <input type="password" value="{{user.2}}" readonly>
+                <div id="user_pass_inter_ico">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+            </div>
+        </div>
+        <button class="amazons_logout"
+            onclick="window.location.href = '{{request.scheme}}://{{request.get_host}}{% url 'logout' %}'">
+            logout
+        </button>
+    </div>
+    {% else %}
+    <div id="prof_null">
+        You Must Have to Login First To Create Your Account
+    </div>
+    {% endif %}
+</div>
+{% endblock data %}
+
+{% block logic %}
+<style>
+    #profile {
+        width: fit-content;
+        margin: 60px;
+    }
+
+    .prof_tits {
+        font-size: 17px;
+    }
+
+    .prof_desc {
+        margin-top: 7px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        background-color: rgb(209, 209, 209);
+        padding: 7px;
+        border-radius: 7px;
+    }
+
+    #user_pass_main {
+        display: flex;
+        border: 2px solid black;
+        border-radius: 7px;
+        padding: 7px;
+        margin-top: 10px;
+    }
+
+    #user_pass_main input {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .amazons_logout {
+        outline: none;
+        border: none;
+        width: 100%;
+        height: 40px;
+        background-color: rgb(255, 145, 0);
+        color: black;
+        font-size: 15px;
+        margin-top: 15px;
+        border-radius: 7px;
+    }
+
+    @media only screen and (max-width:683px) {
+        #profile {
+            width: auto;
+            margin: 20px;
+        }
+    }
+
+    /* .single_whole_prof{
+
+    } */
+</style>
+
+<script>
+    var my_pass_show = document.getElementById('user_pass_inter_ico');
+    var my_pass_inp = document.getElementById('user_pass_main').getElementsByTagName('input')[0]
+    my_pass_show.addEventListener('click', () => {
+        if (my_pass_inp.type == 'password') {
+            my_pass_inp.type = 'text'
+            my_pass_show.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'
+        }
+        else {
+            my_pass_inp.type = 'password'
+            my_pass_show.innerHTML = '<i class="fa-solid fa-eye"></i>'
+
+        }
+    })
+</script>
+{% endblock logic %}

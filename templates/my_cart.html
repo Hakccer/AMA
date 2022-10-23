@@ -1,0 +1,232 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+Amazon.com | Cart
+{% endblock title %}
+
+{% block data %}
+<div id="cart_data">
+    <div class="cart_cont">
+        Number of Items: {{data_len}}
+    </div>
+    <div class="cart_cont">
+        Total Price: ₹ {{tot_price}}
+    </div>
+    <button id="remove_all">
+        Remove all
+    </button>
+    <button class="check_all_remove">
+        Checkout all
+    </button>
+</div>
+<div id="cart_main_data">
+</div>
+{% endblock data %}
+
+{% block logic %}
+<style>
+    .prod_img {
+        width: 250px;
+        height: 100%;
+    }
+
+    .single_product {
+        height: 150px;
+        display: flex;
+        margin: 10px;
+        padding: 15px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid black;
+    }
+
+    .prod_title {
+        font-size: 25px;
+        margin-bottom: 15px;
+        width: 100%;
+        height: 30px;
+        overflow-y: auto;
+    }
+
+    .prod_details {
+        margin-left: 10px;
+    }
+
+    .prod_desc {
+        height: 50px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .prod_price {
+        margin-top: 10px;
+        color: rgb(255, 85, 85);
+        font-size: 25px;
+    }
+
+    @media only screen and (max-width: 756px) {
+        .prod_img {
+            width: 200px;
+        }
+    }
+
+    @media only screen and (max-width: 624px) {
+        .prod_title {
+            font-size: 20px;
+        }
+
+        .prod_desc {
+            font-size: 11px;
+        }
+    }
+
+    #cart_data {
+        margin: 20px;
+        background-color: rgb(233, 233, 233);
+        padding: 10px;
+        border: 2px solid rgb(255, 181, 85);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 7px;
+    }
+
+    .cart_cont {
+        margin-bottom: 10px;
+    }
+
+    #remove_all {
+        width: fit-content;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: rgb(255, 225, 74);
+        color: black;
+        padding: 10px;
+    }
+
+    #manage {
+        display: flex;
+
+    }
+
+    .check_all_remove {
+        width: fit-content;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: rgb(255, 181, 85);
+        color: black;
+        padding: 7px;
+        margin-top: 10px;
+    }
+
+    .check_all {
+        width: fit-content;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: rgb(255, 181, 85);
+        color: black;
+        padding: 7px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        .single_product {
+            height: 110px;
+        }
+
+        .prod_img {
+            width: 110px;
+        }
+
+        .prod_title {
+            width: 100%;
+            font-size: 16px;
+            height: 20px;
+        }
+
+        .prod_desc {
+            height: 35px;
+        }
+
+        .prod_price {
+            font-size: 16px;
+        }
+    }
+</style>
+<script>
+    function get_cart_data() {
+        $(document).ready(function () {
+            $.ajax({
+                url: 'my_cart',
+                method: 'GET',
+                success: function (res) {
+                    document.getElementsByClassName('cart_cont')[0].innerText = 'Number of Items: ' + res.data.length;
+                    document.getElementsByClassName('cart_cont')[1].innerText = 'Total Price: ' + res.total_price;
+                    let my_dat = res.data;
+                    let my_ele = document.getElementById('cart_main_data');
+                    my_ele.innerHTML = ''
+                    for (let i = 0; i < res.data.length; i++) {
+                        my_ele.innerHTML += `
+                        <div class="single_product">
+                            <img class="prod_img" src="/static/${my_dat[i].prodg}.jpg" alt="{{i.prodg}}.jpg">
+                            <div class="prod_details">
+                                <div class="prod_title">${my_dat[i].title}</div>
+                                <div class="prod_desc">
+                                    ${my_dat[i].desc}
+                                </div>
+                                <div id="manage">
+                                    <div class="prod_price">
+                                        ₹ ${my_dat[i].price}
+                                    </div>
+                                    <button class="check_all">
+                                        Remove Item
+                                    </button>
+                                </div>
+                                <input type="text" hidden readonly value="${my_dat[i].id}">
+                            </div>
+                        </div>
+                        `
+                    }
+
+                    $(document).ready(function () {
+                        let my_remove_all = document.getElementsByClassName('check_all');
+                        Array.from(my_remove_all).forEach(function (ele) {
+                            ele.addEventListener('click', function () {
+                                $(document).ready(function () {
+                                    $.ajax({
+                                        url: 'from_cart',
+                                        method: 'GET',
+                                        data: {
+                                            'id': ele.parentElement.parentElement.getElementsByTagName('input')[0].value
+                                        },
+                                    })
+                                });
+                            })
+                        });
+                    })
+
+                    document.getElementById('remove_all').addEventListener('click', function () {
+                        $(document).ready(function () {
+                            $.ajax({
+                                url: 'from_cart',
+                                method: 'GET',
+                                data: {
+                                    'id': 'all'
+                                },
+                            })
+                        });
+                    })
+                }
+            })
+        });
+    }
+
+
+
+    setInterval(() => {
+        get_cart_data()
+    }, 500);
+
+</script>
+{% endblock logic %}

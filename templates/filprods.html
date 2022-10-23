@@ -1,0 +1,131 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+Searched Products
+{% endblock title %}
+
+
+{% block data %}
+<div>
+    {% if data %}
+    {% for i in data %}
+    <div class="single_product">
+        <img class="prod_img" src="/static/{{i.prodg}}.jpg" alt="{{i.prodg}}.jpg">
+        <div class="prod_details">
+            <div class="prod_title">{{i.title}}</div>
+            <div class="prod_desc">
+                {{i.desc}}
+            </div>
+            <div class="prod_price">
+                ₹ {{i.price}}
+            </div>
+            <input type="text" hidden readonly value="{{i.prod_id}}">
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div id='null_search'>
+        Not Able to Found Any Products with your search "{{my_quer}}"
+    </div>
+    {% endif %}
+</div>
+{% endblock data %}
+
+
+{% block logic %}
+<style>
+    .prod_img {
+        width: 250px;
+        height: 100%;
+    }
+
+    .single_product {
+        height: 150px;
+        display: flex;
+        margin: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid black;
+    }
+
+    .prod_title {
+        font-size: 25px;
+        margin-bottom: 15px;
+        width: 100%;
+        height: 30px;
+        overflow-y: auto;
+    }
+
+    .prod_details {
+        margin-left: 10px;
+    }
+
+    .prod_desc {
+        height: 50px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .prod_price {
+        margin-top: 10px;
+        color: rgb(255, 85, 85);
+        font-size: 25px;
+    }
+
+    #null_search {
+        width: auto;
+        text-align: center;
+        margin-top: 20%;
+        margin-bottom: 20%;
+        font-size: 23px;
+    }
+
+    @media only screen and (max-width: 756px) {
+        .prod_img {
+            width: 200px;
+        }
+    }
+
+    @media only screen and (max-width: 624px) {
+        .prod_title {
+            font-size: 20px;
+        }
+
+        .prod_desc {
+            font-size: 11px;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        .single_product {
+            height: 110px;
+        }
+
+        .prod_img {
+            width: 110px;
+        }
+
+        .prod_title {
+            width: 100%;
+            font-size: 16px;
+            height: 20px;
+        }
+
+        .prod_desc {
+            height: 35px;
+        }
+
+        .prod_price {
+            font-size: 16px;
+        }
+    }
+</style>
+<script>
+    var my_data = document.getElementsByClassName('single_product')
+    Array.from(my_data).forEach((e) => {
+        e.addEventListener('click', function () {
+            let my_prod_id = e.getElementsByTagName('input')[0].value
+            window.location.href = `{% url 's_product' %}?id=${my_prod_id}`;
+        });
+    });
+</script>
+{% endblock logic %}

@@ -1,0 +1,162 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+Products | Amazon.com Clone
+{% endblock title %}
+
+
+{% block data %}
+<div id="taka">
+    <div id="page_title">
+        Products On Amazon Clone
+    </div>
+    <div id="page_desc">
+        This is An Amazon Clone Maded By Tanishq Prajapati a Very Passionate Web Developer With Soo much Good SKills And
+        Having The Will To Work For Big Organizations And Here You Will Find Products Like Watches Tech Stuffs And Some
+        Daily Needs</br>
+        At this Particular Time i Have Not Added Stock Functionality But its an easy task for me right now you can not buy and you can not add to cart a single product more than one time thank you :)
+    </div>
+</div>
+<div id="all_prods">
+    {% for i in data %}
+    <div class="single_product">
+        <img class="prod_img" src="/static/{{i.prodg}}.jpg" alt="{{i.prodg}}.jpg">
+        <div class="prod_details">
+            <div class="prod_title">{{i.title}}</div>
+            <div class="prod_desc">
+                {{i.desc}}
+            </div>
+            <div class="prod_price">
+                ₹ {{i.price}}
+            </div>
+            <input type="text" hidden readonly value="{{i.prod_id}}">
+        </div>
+    </div>
+    {% endfor %}
+    <!-- <div class="single_product">
+        {% load static %}
+        <img class="prod_img" src="{% static 'watch.jpg' %}" alt="">
+        <div class="prod_details">
+            <div class="prod_title">Rollex Day Night Water resistant</div>
+            <div class="prod_desc">The Best Rollex Watch in the World With The Highest Market Value And Value for Money
+                Best suitable
+                Leather Strap Watch For Men And Women Comfortable on Hands During Sweaty body
+            </div>
+            <div class="prod_price">
+                10,000
+            </div>
+        </div>
+    </div> -->
+</div>
+{% endblock data %}
+
+
+
+{% block logic %}
+<style>
+    #taka {
+        background-color: rgb(35, 47, 62);
+        color: white;
+        padding: 20px;
+        border-top: 1px solid white;
+
+    }
+
+    #page_title {
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    #page_desc {
+        letter-spacing: 1px;
+        line-height: 25px;
+        font-size: medium;
+    }
+
+    .prod_img {
+        width: 250px;
+        height: 100%;
+    }
+
+    .single_product {
+        height: 150px;
+        display: flex;
+        margin: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid black;
+    }
+
+    .prod_title {
+        font-size: 25px;
+        margin-bottom: 15px;
+        width: 100%;
+        height: 30px;
+        overflow-y: auto;
+    }
+
+    .prod_details {
+        margin-left: 10px;
+    }
+
+    .prod_desc {
+        height: 50px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .prod_price {
+        margin-top: 10px;
+        color: rgb(255, 85, 85);
+        font-size: 25px;
+    }
+
+    @media only screen and (max-width: 756px) {
+        .prod_img {
+            width: 200px;
+        }
+    }
+
+    @media only screen and (max-width: 624px) {
+        .prod_title {
+            font-size: 20px;
+        }
+
+        .prod_desc {
+            font-size: 11px;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        .single_product {
+            height: 110px;
+        }
+
+        .prod_img {
+            width: 110px;
+        }
+
+        .prod_title {
+            width: 100%;
+            font-size: 16px;
+            height: 20px;
+        }
+
+        .prod_desc {
+            height: 35px;
+        }
+
+        .prod_price {
+            font-size: 16px;
+        }
+    }
+</style>
+<script>
+    var my_data = document.getElementsByClassName('single_product')
+    Array.from(my_data).forEach((e) => {
+        e.addEventListener('click', function () {
+            let my_prod_id = e.getElementsByTagName('input')[0].value
+            window.location.href = `{% url 's_product' %}?id=${my_prod_id}`;
+        });
+    });
+</script>
+{% endblock logic %}
