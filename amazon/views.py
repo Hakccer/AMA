@@ -86,7 +86,7 @@ def signup_auth(request):
     referer = request.META.get('HTTP_REFERER')
     print(referer)
     try:
-        if 'http://127.0.0.1:8000/signup' in referer:
+        if 'https://amazonclonehakccer.herokuapp.com/signup' in referer:
             if is_ajax(request):
                 print("Sd")
                 if request.method == 'POST':
